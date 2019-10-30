@@ -1,22 +1,20 @@
 let express = require('express');
-let bodyParser = require('body-parser');
-let path = require('path');
 let app = express();
 
+//SMART
+let path = require('path');
 app.use(express.static(path.join(__dirname, '/public/')));
-
 app.get('/smart-launch', (request, response) => {
     response.sendFile(path.join(__dirname + '/launch.html'));
 });
-
 app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname + '/index.html'));
 });
 
 //CDS Hooks
+let bodyParser = require('body-parser');
 // This is necessary middleware to parse JSON into the incoming request body for POST requests
 app.use(bodyParser.json());
-
 /**
  * Security Considerations:
  * - CDS Services must implement CORS in order to be called from a web browser
@@ -32,7 +30,6 @@ app.use((request, response, next) => {
     // Pass to next layer of middleware
     next();
 });
-
 /**
  * Authorization.
  * - CDS Services should only allow calls from trusted CDS Clients
